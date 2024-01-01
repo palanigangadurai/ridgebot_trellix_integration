@@ -1,0 +1,156 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-stylesheet type="text/xsl" href="scannerStyle.xsl"?>
+<metrics reportType="Internal Violations" processingTime="0 minutes and 1 seconds">
+  <general>
+    <scannerVersion>McAfee ApiScanner Version: 4.6.0.265</scannerVersion>
+    <ruleSetVersion><![CDATA[Report based on Ruleset for 
+ Product : McAfee ePolicy Orchestrator Version : 5.10.0.2362
+ Product : McAfee Foundation Services Version : 5.10.0.883]]></ruleSetVersion>
+  </general>
+  <extensionProperties>
+    <system />
+    <version>1.0.0</version>
+    <name>S_RIDGBTMETA</name>
+    <company>Ridge Security</company>
+    <multitenant>false</multitenant>
+    <localizedName>RidgeBot Service Manager</localizedName>
+    <category>RidgeBot Service Manager</category>
+    <detail>Copyright (C) 2023 Ridge Security, Inc. All rights reserved.</detail>
+    <requires>core:5.10.0,EPOCore:5.10.0,console:5.10.0,ComputerMgmt:5.10.0,rs:5.10.0,scheduler:5.10.0</requires>
+  </extensionProperties>
+  <install>
+    <name>RidgeBotServiceManager</name>
+    <queryGroups>1</queryGroups>
+    <queries>4</queries>
+    <dashboards>1</dashboards>
+    <servertasks>0</servertasks>
+    <reports>0</reports>
+    <dcPlugin msgType="">0</dcPlugin>
+    <policyPlugin FeatureCategoryType="">0</policyPlugin>
+    <urlPlugin contexts="">0</urlPlugin>
+    <event ids="">0</event>
+  </install>
+  <connectionLeaks connectionLeaksCount="0" />
+  <violationsInfo>
+    <!--########################List of violations########################-->
+    <violations totalViolations="0" />
+    <!--########################Files that will need to be modified########################-->
+    <violators modifyCount="0" />
+    <!--########################List of Unique non-API classes in use########################-->
+    <nonApis nonApisCount="0" />
+    <apiViolationForPersistence ViolationCount="0" />
+    <!--########################List of Usage of Deprecated API########################-->
+    <deprecatedApis deprecatedCount="0" />
+    <apiDeprecationForPersistence ViolationCount="0" />
+    <!--########################List of sql violations########################-->
+    <sqlViolations sqlViolationCount="0" />
+    <sqlPersistenceViolations ViolationCount="0" />
+    <!--########################List of Potential sql violations########################-->
+    <potentialSqlViolations sqlViolationCount="0" />
+  </violationsInfo>
+  <usages>
+    <usage count="4" method="getManualProxy_HttpServer()" class="com.mcafee.epo.core.model.ProxyInfoVO" />
+    <usage count="1" method="getManualProxy_FtpServer()" class="com.mcafee.epo.core.model.ProxyInfoVO" />
+    <usage count="3" method="getManualProxy_HttpServerPort()" class="com.mcafee.epo.core.model.ProxyInfoVO" />
+    <usage count="1" method="getProxyType()" class="com.mcafee.epo.core.model.ProxyInfoVO" />
+    <usage count="1" method="getHttpProxyAuthPassword()" class="com.mcafee.epo.core.model.ProxyInfoVO" />
+    <usage count="1" method="getHttpProxyAuthUser()" class="com.mcafee.epo.core.model.ProxyInfoVO" />
+    <usage count="1" method="get(Connection)" class="com.mcafee.epo.core.services.EPOProxyService" />
+    <usage count="1" method="getFileUploadLimit()" class="com.mcafee.epo.core.util.ServerConfiguration" />
+    <usage count="1" method="getAttribute(String)" class="com.mcafee.orion.core.auth.OrionUser" />
+    <usage count="1" method="setAttribute(String,Object)" class="com.mcafee.orion.core.auth.OrionUser" />
+    <usage count="2" method="isAllowed(String)" class="com.mcafee.orion.core.auth.OrionUser" />
+    <usage count="1" method="&lt;init&gt;()" class="com.mcafee.orion.core.auth.SingleSelectRoleFactory" />
+    <usage count="1" method="&lt;init&gt;()" class="com.mcafee.orion.core.auth.SingleSelectRoleImpl" />
+    <usage count="3" method="getDefaultTenantSystemUser()" class="com.mcafee.orion.core.auth.UserLoader" />
+    <usage count="1" method="&lt;init&gt;()" class="com.mcafee.orion.core.cmd.SchedulableCommandBase" />
+    <usage count="1" method="updateStatus(int)" class="com.mcafee.orion.core.cmd.SchedulableLogger" />
+    <usage count="8" method="writeMessage(int,String)" class="com.mcafee.orion.core.cmd.SchedulableLogger" />
+    <usage count="3" method="getConnection(OrionUser)" class="com.mcafee.orion.core.db.base.Database" />
+    <usage count="2" method="&lt;init&gt;(Class,String,DatabaseMapper$Column[])" class="com.mcafee.orion.core.db.base.DatabaseMapper" />
+    <usage count="37" method="&lt;init&gt;(String,String,int)" class="com.mcafee.orion.core.db.base.DatabaseMapper$IntColumn" />
+    <usage count="2" method="&lt;init&gt;(String,String,int)" class="com.mcafee.orion.core.db.base.DatabaseMapper$LongColumn" />
+    <usage count="3" method="&lt;init&gt;(String,String,int,int)" class="com.mcafee.orion.core.db.base.DatabaseMapper$StringColumn" />
+    <usage count="2" method="&lt;init&gt;(String,String,int,boolean,int)" class="com.mcafee.orion.core.db.base.DatabaseMapper$StringColumn" />
+    <usage count="1" method="&lt;init&gt;()" class="com.mcafee.orion.core.plugin.DefaultPlugin" />
+    <usage count="1" method="setSelection(SexpSelect)" class="com.mcafee.orion.core.query.QueryBuilder" />
+    <usage count="1" method="&lt;init&gt;()" class="com.mcafee.orion.core.query.QueryBuilder" />
+    <usage count="1" method="setUseUID(boolean)" class="com.mcafee.orion.core.query.QueryBuilder" />
+    <usage count="1" method="setTargetName(String)" class="com.mcafee.orion.core.query.QueryBuilder" />
+    <usage count="1" method="getDetailsColumnInfo()" class="com.mcafee.orion.core.query.QueryBuilder" />
+    <usage count="1" method="setTarget(String)" class="com.mcafee.orion.core.query.QueryBuilder" />
+    <usage count="1" method="setCondition(Sexp)" class="com.mcafee.orion.core.query.QueryExecutor" />
+    <usage count="1" method="setUser(OrionUser)" class="com.mcafee.orion.core.query.QueryListDataSource" />
+    <usage count="1" method="getQueryBuilder()" class="com.mcafee.orion.core.query.QueryListDataSource" />
+    <usage count="1" method="&lt;init&gt;(QueryExecutor)" class="com.mcafee.orion.core.query.QueryListDataSource" />
+    <usage count="1" method="isSelectable()" class="com.mcafee.orion.core.query.sexp.ColumnInfo" />
+    <usage count="1" method="getFullName()" class="com.mcafee.orion.core.query.sexp.ColumnInfo" />
+    <usage count="1" method="&lt;init&gt;()" class="com.mcafee.orion.core.query.sexp.ops.SexpContains" />
+    <usage count="1" method="addChildren(Sexp[])" class="com.mcafee.orion.core.query.sexp.ops.SexpContains" />
+    <usage count="1" method="&lt;init&gt;()" class="com.mcafee.orion.core.query.sexp.ops.SexpOr" />
+    <usage count="1" method="addChild(Sexp)" class="com.mcafee.orion.core.query.sexp.ops.SexpSelect" />
+    <usage count="1" method="&lt;init&gt;()" class="com.mcafee.orion.core.query.sexp.ops.SexpSelect" />
+    <usage count="1" method="children()" class="com.mcafee.orion.core.query.sexp.Sexp" />
+    <usage count="1" method="getMessage()" class="com.mcafee.orion.core.query.sexp.SexpException" />
+    <usage count="2" method="&lt;init&gt;(String)" class="com.mcafee.orion.core.query.sexp.SexpProp" />
+    <usage count="1" method="&lt;init&gt;(String)" class="com.mcafee.orion.core.query.sexp.SexpString" />
+    <usage count="1" method="&lt;init&gt;()" class="com.mcafee.orion.core.query.SquidTableInfo" />
+    <usage count="1" method="&lt;init&gt;()" class="com.mcafee.orion.core.query.table.ForeignKey" />
+    <usage count="7" method="forward(String,String)" class="com.mcafee.orion.core.servlet.ActionResponse" />
+    <usage count="5" method="none()" class="com.mcafee.orion.core.servlet.ActionResponse" />
+    <usage count="1" method="&lt;init&gt;()" class="com.mcafee.orion.core.servlet.ControllerServlet" />
+    <usage count="1" method="&lt;init&gt;()" class="com.mcafee.orion.core.servlet.OrionPluginContextListener" />
+    <usage count="2" method="getOrionUser(HttpServletRequest)" class="com.mcafee.orion.core.servlet.util.UserUtil" />
+    <usage count="1" method="&lt;init&gt;()" class="com.mcafee.orion.core.servlet.WebAppUrl" />
+    <usage count="1" method="and(Sexp,Sexp)" class="com.mcafee.orion.core.sexp.SexpUtil" />
+    <usage count="1" method="&lt;init&gt;()" class="com.mcafee.orion.core.spring.MVCActionConfig" />
+    <usage count="1" method="&lt;init&gt;()" class="com.mcafee.orion.core.spring.SpringResource" />
+    <usage count="1" method="&lt;init&gt;()" class="com.mcafee.orion.core.ui.DefaultDisplayAdapter" />
+    <usage count="1" method="&lt;init&gt;()" class="com.mcafee.orion.core.ui.detail.DetailSubpage" />
+    <usage count="1" method="&lt;init&gt;()" class="com.mcafee.orion.core.ui.detail.SpringDetailSubpageRegistration" />
+    <usage count="1" method="&lt;init&gt;(String,Resource)" class="com.mcafee.orion.core.ui.DisplayAdapterImpl" />
+    <usage count="1" method="formatPropertyValue(String,Object,DisplayContext)" class="com.mcafee.orion.core.ui.DisplayAdapterImpl" />
+    <usage count="1" method="setMaxUploadSize(Integer)" class="com.mcafee.orion.core.ui.MultipartFormPolicy" />
+    <usage count="1" method="&lt;init&gt;()" class="com.mcafee.orion.core.ui.MultipartFormPolicy" />
+    <usage count="1" method="&lt;init&gt;()" class="com.mcafee.orion.core.ui.QueryTargetGroupInfo" />
+    <usage count="1" method="&lt;init&gt;()" class="com.mcafee.orion.core.ui.RegisteredType" />
+    <usage count="1" method="&lt;init&gt;()" class="com.mcafee.orion.core.ui.Tab" />
+    <usage count="1" method="&lt;init&gt;(String,String)" class="com.mcafee.orion.core.ui.tags.html.Option" />
+    <usage count="1" method="&lt;init&gt;()" class="com.mcafee.orion.core.ui.tags.html.SingleSelect" />
+    <usage count="1" method="addOptionItem(IOptionItem)" class="com.mcafee.orion.core.ui.tags.html.SingleSelect" />
+    <usage count="5" method="&lt;init&gt;(String,MessageType,ResultCategory)" class="com.mcafee.orion.core.ui.uiaction.AsyncUIActionMessageResponse" />
+    <usage count="1" method="&lt;init&gt;()" class="com.mcafee.orion.core.ui.UIActionHandler" />
+    <usage count="21" method="getLocale()" class="com.mcafee.orion.core.ui.UIActionHandler" />
+    <usage count="1" method="&lt;init&gt;()" class="com.mcafee.orion.core.ui.UIActionInfo" />
+    <usage count="1" method="nextDisplayPage(HttpServletRequest)" class="com.mcafee.orion.core.ui.WizardAction" />
+    <usage count="1" method="&lt;init&gt;()" class="com.mcafee.orion.core.ui.WizardAction" />
+    <usage count="73" method="close(AutoCloseable)" class="com.mcafee.orion.core.util.IOUtil" />
+    <usage count="1" method="getAsString(String)" class="com.mcafee.orion.core.util.OrionUploadFileItem" />
+    <usage count="1" method="getSize()" class="com.mcafee.orion.core.util.OrionUploadFileItem" />
+    <usage count="8" method="getParams()" class="com.mcafee.orion.core.util.OrionURI" />
+    <usage count="1" method="setParams(Map)" class="com.mcafee.orion.core.util.OrionURI" />
+    <usage count="32" method="formatString(String,Locale,Object[])" class="com.mcafee.orion.core.util.resource.Resource" />
+    <usage count="19" method="getString(String,Locale)" class="com.mcafee.orion.core.util.resource.Resource" />
+    <usage count="9" method="getURI()" class="com.mcafee.orion.rs.servers.RegisteredServer" />
+    <usage count="2" method="getName()" class="com.mcafee.orion.rs.servers.RegisteredServer" />
+    <usage count="3" method="getServersOfType(String,OrionUser)" class="com.mcafee.orion.rs.servers.RegisteredServerService" />
+    <usage count="7" method="getServerById(int,OrionUser)" class="com.mcafee.orion.rs.servers.RegisteredServerService" />
+    <usage count="1" method="&lt;init&gt;()" class="com.mcafee.orion.rs.shared.RegisterServerTypes" />
+    <usage count="1" method="&lt;init&gt;()" class="com.mcafee.orion.rs.shared.ServerCategoryImpl" />
+    <usage count="3" method="arraycopy(Object,int,Object,int,int)" class="java.lang.System" />
+  </usages>
+  <sqlUsages />
+  <clientTasks>
+    <!--Scan the expanded extension directory instead of a zip for client tasks if any-->
+  </clientTasks>
+  <policies>
+    <!--Scan the expanded extension directory instead of a zip for policies if any-->
+  </policies>
+  <errors errorCount="0">
+    <!--########################List of Errors########################-->
+  </errors>
+  <warnings warningCount="0">
+    <!--########################List of Warnings########################-->
+  </warnings>
+</metrics>
+

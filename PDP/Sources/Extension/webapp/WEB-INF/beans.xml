@@ -1,0 +1,375 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<beans xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://www.springframework.org/schema/beans"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+    <bean id="RidgeBotServiceManager.mvc.action.cfg" class="com.mcafee.orion.core.spring.MVCActionConfig">
+        <property name="configuration" value="/WEB-INF/mvcactions.xml"/>
+    </bean>
+    <bean id="RidgeBotServiceManager.single.select.role" class="com.mcafee.orion.core.auth.SingleSelectRoleFactory">
+        <property name="prefix" value="RidgeBotServiceManager"/>
+        <property name="displayNameKey" value="RidgeBotServiceManager.permission.name"/>
+        <property name="resource" ref="RidgeBotServiceManager.resource"/>
+        <property name="roles">
+            <list>
+                <bean id="RidgeBotServiceManager.role.admin" class="com.mcafee.orion.core.auth.SingleSelectRoleImpl">
+                    <property name="id" value="RidgeBotServiceManager.roles"/>
+                    <property name="displayNameKey" value="RidgeBotServiceManager.admin"/>
+                    <property name="resource" ref="RidgeBotServiceManager.resource"/>
+                    <property name="allowedPermissions">
+                        <list>
+                            <value>RidgeBotServiceManager.run</value>
+                        </list>
+                    </property>
+                </bean>
+            </list>
+        </property>
+    </bean>
+    <bean id="RidgeBotServiceManager.Server.Type" class="com.ridgebot.ext.server.RidgeBotRegisteredServerInstance"
+          scope="prototype">
+        <property name="displayName" value="RegisteredServer.display.name"/>
+        <property name="context" value="/S_RIDGBTMETA"/>
+        <property name="resource" ref="RidgeBotServiceManager.resource"/>
+        <property name="name" value="RidgeBotServiceManagerServer"/>
+        <property name="displayUri" value="/loadServer.do"/>
+        <property name="updateUri" value="/saveServer.do"/>
+        <property name="categoryName" value="RidgeBotServiceManagerServer"/>
+        <property name="obfuscator" ref="core.obfuscator"/>
+    </bean>
+    <bean id="RidgeBotServiceManager.ServerType.Registration" class="com.mcafee.orion.rs.shared.RegisterServerTypes"
+          autowire="autodetect"/>
+    <bean id="RidgeBotServiceManager.RegisteredServer.RestClientUtil"
+          class="com.ridgebot.ext.restclient.RidgeBotRestClient" scope="prototype">
+        <property name="epoProxyService" ref="epo.proxyService"/>
+        <property name="database" ref="core.db"/>
+        <property name="userLoader" ref="core.userLoader"/>
+    </bean>
+    <bean id="RidgeBotServiceManager.Server.Action" class="com.ridgebot.ext.server.RidgeBotRegisteredServerAction"
+          scope="prototype">
+        <property name="resource" ref="RidgeBotServiceManager.resource"/>
+        <property name="myWizardInfo" ref="rs.wizard"/>
+        <property name="serverRegistry" ref="rs.server.registry"/>
+        <property name="obfuscator" ref="core.obfuscator"/>
+        <property name="restClientUtil" ref="RidgeBotServiceManager.RegisteredServer.RestClientUtil"/>
+    </bean>
+    <bean id="RidgeBotServiceManager.Server.Category" class="com.mcafee.orion.rs.shared.ServerCategoryImpl">
+        <property name="name" value="RidgeBotServiceManagerServer"/>
+        <property name="displayNameKey" value="RidgeBotServiceManager Server"/>
+        <property name="resource" ref="RidgeBotServiceManager.resource"/>
+        <!--  <property name="singleton" value="true"/> -->
+    </bean>
+    <bean id="RidgeBotServiceManager.Statistics.Squid.Registration" class="com.mcafee.orion.core.query.SquidTableInfo">
+        <property name="permissionUri" value="perm:RidgeBotServiceManager.run"/>
+        <property name="tableName" value="RidgeBotStatistics"/>
+        <property name="queryTargetGroup" ref="RidgeBotServiceManager.Query.Group"/>
+        <property name="registeredTypeUID" value="RidgeBotTaskUID"/>
+        <property name="uidColumnName" value="AutoId"/>
+        <property name="columns">
+            <list>
+                <value>AutoId long NONE,non_null</value>
+                <value>TaskId string ALL</value>
+                <value>ServerName string ALL</value>
+                <value>ServerId int NONE</value>
+                <value>SecurityHttpsRatio int ALL</value>
+                <value>SecurityVulTransform int ALL</value>
+                <value>SecurityAttackSurfaceDensity int ALL</value>
+                <value>SecurityRiskTransform int ALL</value>
+                <value>SecuritySafetyIndex int ALL</value>
+                <value>SecurityAliveRatio int ALL</value>
+                <value>SecurityAliveRatio int ALL</value>
+                <value>SecurityVulTypeCoverageRatio int ALL</value>
+                <value>TaskExploitCount int ALL</value>
+                <value>TaskDigCount int ALL</value>
+                <value>RiskCredentialsNum int ALL</value>
+                <value>RiskPenetrationNum int ALL</value>
+                <value>RiskInfiltratedAssetsNum int ALL</value>
+                <value>RiskExploitNum int ALL</value>
+                <value>RiskCodeNum int ALL</value>
+                <value>RiskNumber int ALL</value>
+                <value>RiskShellNum int ALL</value>
+                <value>RiskDatabaseNum int ALL</value>
+                <value>ChainSensitiveAttackAverage int ALL</value>
+                <value>ChainVulAttackAverage int ALL</value>
+                <value>VulNumber int ALL</value>
+                <value>VulInfo int ALL</value>
+                <value>VulTypeNumber int ALL</value>
+                <value>VulHigh int ALL</value>
+                <value>VulMedium int ALL</value>
+                <value>VulLow int ALL</value>
+                <value>AttackIpAliveNum int ALL</value>
+                <value>AttackIpAsstesNum int ALL</value>
+                <value>AttackIpUnaliveNum int ALL</value>
+                <value>AttackSiteAsstesNum int ALL</value>
+                <value>AttackSiteAliveNum int ALL</value>
+                <value>AttackSiteUnaliveNum int ALL</value>
+                <value>AttackAsstesNum int ALL</value>
+                <value>AttackSurfaceNum int ALL</value>
+            </list>
+        </property>
+        <property name="resource" ref="RidgeBotServiceManager.resource"/>
+        <property name="displayNameKey" value="RidgeBotStatistics.table.name"/>
+        <property name="descriptionKey" value="RidgeBotStatistics.table.desc"/>
+        <property name="propertyFormatter">
+            <bean class="com.mcafee.orion.core.ui.DefaultDisplayAdapter">
+                <constructor-arg index="0" value="RidgeBotServiceManager.da"/>
+                <constructor-arg index="1" ref="RidgeBotServiceManager.resource"/>
+            </bean>
+        </property>
+    </bean>
+    <bean id="RidgeBotServiceManager.TaskInfo.Squid.Registration" class="com.mcafee.orion.core.query.SquidTableInfo">
+        <property name="permissionUri" value="perm:RidgeBotServiceManager.run"/>
+        <property name="tableName" value="RidgeBotTaskInfo"/>
+        <property name="queryTargetGroup" ref="RidgeBotServiceManager.Query.Group"/>
+        <property name="registeredTypeUID" value="RidgeBotTaskUID"/>
+        <property name="uidColumnName" value="AutoId"/>
+        <!--<property name="type" value="join"/>-->
+        <property name="columns">
+            <list>
+                <value>AutoId long NONE,non_null</value>
+                <value>TaskId string ALL</value>
+                <value>ServerName string ALL</value>
+                <value>ServerId int NONE</value>
+                <value>TaskJobTotal int ALL</value>
+                <value>TaskDetectType string ALL</value>
+                <value>TaskJobCounts int ALL</value>
+                <value>TaskSummary string ALL</value>
+                <value>TaskName string ALL</value>
+                <value>TaskStatus string ALL</value>
+                <value>TaskTargets string ALL</value>
+                <value>TaskNodes string ALL</value>
+                <value>TaskStartTime string ALL</value>
+                <value>TaskProgress string ALL</value>
+                <value>TaskCompleteTime string ALL</value>
+                <value>TaskType string ALL</value>
+            </list>
+        </property>
+        <property name="foreignKeys">
+            <list>
+                <bean class="com.mcafee.orion.core.query.table.ForeignKey">
+                    <property name="joinType" value="left"/>
+                    <property name="cardinality" value="one-to-one"/>
+                    <property name="sourceColumns" value="TaskId,ServerName"/>
+                    <property name="destinationTable" value="RidgeBotStatistics"/>
+                    <property name="destinationColumns" value="TaskId,ServerName"/>
+                </bean>
+            </list>
+        </property>
+        <property name="resource" ref="RidgeBotServiceManager.resource"/>
+        <property name="displayNameKey" value="RidgeBotTaskInfo.table.name"/>
+        <property name="descriptionKey" value="RidgeBotTaskInfo.table.desc"/>
+        <property name="propertyFormatter">
+            <bean class="com.mcafee.orion.core.ui.DefaultDisplayAdapter">
+                <constructor-arg index="0" value="RidgeBotServiceManager.da"/>
+                <constructor-arg index="1" ref="RidgeBotServiceManager.resource"/>
+            </bean>
+        </property>
+    </bean>
+    <bean id="RidgeBotServiceManager.Query.Group"
+          class="com.mcafee.orion.core.ui.QueryTargetGroupInfo">
+        <property name="name" value="RidgeBotServiceManager.DisplayName"/>
+        <property name="displayNameKey" value="RidgeBotServiceManager.DisplayName"/>
+        <property name="resource" ref="RidgeBotServiceManager.resource"/>
+        <property name="displayOrder" value="10000"/>
+    </bean>
+    <bean id="RidgeBotTaskInfoDataSource" class="com.ridgebot.ext.model.RidgeBotQueryListDataSource" scope="prototype">
+        <constructor-arg index="0" value="RidgeBotTaskInfo"/>
+        <property name="queryBuilderService" ref="core.queryBuilder.service"/>
+        <property name="tableService" ref="core.tableService"/>
+        <property name="resource" ref="RidgeBotServiceManager.resource"/>
+    </bean>
+    <bean id="RidgeBotServiceManager.RegisteredServer.tab" class="com.mcafee.orion.core.ui.Tab">
+        <property name="sectionId" value="ThirdParty"/>
+        <property name="resource" ref="RidgeBotServiceManager.resource"/>
+        <property name="id" value="RidgeBotServiceManager.Registered.Tab.new"/>
+        <property name="order" value="16000"/>
+        <property name="context" value="/S_RIDGBTMETA"/>
+        <property name="URL" value="/showPartnerData.do"/>
+        <property name="text" value="RidgeBotServiceManager.RegisterdServer.Info.Tab.Text"/>
+        <property name="description" value="RidgeBotServiceManager.RegisterdServer.Info.Tab.Desc"/>
+        <property name="permission" value="perm:RidgeBotServiceManager.run"/>
+    </bean>
+    <bean id="RideBot.TaskStatiscits.DisplayAdapter"
+          class="com.ridgebot.ext.model.RidgeBotTaskStatisticsDisplayAdaptor"
+          scope="prototype">
+        <constructor-arg index="0" value="RidgeBotServiceManager.da"/>
+        <constructor-arg index="1" ref="RidgeBotServiceManager.resource"/>
+    </bean>
+    <bean id="RidgeBotServiceManager.UI.Tab.ActionHandler"
+          class="com.ridgebot.ext.server.RidgeBotRegisteredServerDataActionHandler" scope="prototype">
+        <property name="ridgeBotTaskDataSource" ref="RidgeBotTaskInfoDataSource"/>
+        <property name="registeredServer" ref="RidgeBotServiceManager.Server.Type"/>
+        <property name="resource" ref="RidgeBotServiceManager.resource"/>
+        <property name="restClientUtil" ref="RidgeBotServiceManager.RegisteredServer.RestClientUtil"/>
+        <property name="displayer" ref="RideBot.TaskStatiscits.DisplayAdapter"/>
+        <property name="serverConfiguration" ref="epo.core.serverConfig"/>
+        <property name="registeredServerService" ref="rs.registeredServer.service"/>
+    </bean>
+    <bean id="RidgeBotServiceManager.SchedulableServerTask.Command"
+          class="com.ridgebot.ext.command.RidgeBotTaskProgressUpdateCommand" scope="prototype">
+        <property name="context" value="/S_RIDGBTMETA"/>
+        <property name="configURI" value="/scheduleServerTaskCommand.do"/>
+        <property name="summaryURI" value="/schedulableServerTaskSummary.do"/>
+        <property name="resource" ref="RidgeBotServiceManager.resource"/>
+        <property name="restClientUtil" ref="RidgeBotServiceManager.RegisteredServer.RestClientUtil"/>
+        <property name="registeredServer" ref="RidgeBotServiceManager.Server.Type"/>
+        <property name="registeredServerService" ref="rs.registeredServer.service"/>
+    </bean>
+    <bean id="RidgeBot.Scheduler" class="com.ridgebot.ext.scheduler.RidgeBotServerTaskScheduler" scope="prototype">
+        <property name="registeredServer" ref="RidgeBotServiceManager.Server.Type"/>
+        <property name="registeredServerService" ref="rs.registeredServer.service"/>
+    </bean>
+    <!-- Create Task Ui Action -->
+    <bean id="RidgeBot.Create.Task.UIAction" class="com.mcafee.orion.core.ui.UIActionInfo">
+        <property name="id" value="RideBotTask.create"/>
+        <property name="registeredType" ref="RidgeBot.Task.RegType"/>
+        <property name="confirmRequired" value="false"/>
+        <property name="input" value="0"/>
+        <property name="output" value="new"/>
+        <property name="actionWebAppUrl">
+            <bean class="com.mcafee.orion.core.servlet.WebAppUrl">
+                <property name="context" value="/S_RIDGBTMETA"/>
+                <property name="url" value="/createNewTask.do"/>
+            </bean>
+        </property>
+        <property name="resource" ref="RidgeBotServiceManager.resource"/>
+        <property name="displayNameKey" value="RidgeBot.Task.Create"/>
+        <property name="preActionKey" value="RidgeBot.Task.Create.PreAction"/>
+        <property name="permission" value="perm:RidgeBotServiceManager.run"/>
+    </bean>
+    <!-- Delete Task Ui Action -->
+    <bean id="RidgeBot.Delete.Task.UIAction" class="com.mcafee.orion.core.ui.UIActionInfo">
+        <property name="id" value="RideBotTask.delete"/>
+        <property name="registeredType" ref="RidgeBot.Task.RegType"/>
+        <property name="confirmRequired" value="true"/>
+        <property name="input" value="N"/>
+        <property name="output" value="self"/>
+        <property name="actionWebAppUrl">
+            <bean class="com.mcafee.orion.core.servlet.WebAppUrl">
+                <property name="context" value="/S_RIDGBTMETA"/>
+                <property name="url" value="/deleteTask.do"/>
+            </bean>
+        </property>
+        <property name="resource" ref="RidgeBotServiceManager.resource"/>
+        <property name="displayNameKey" value="RidgeBot.Task.Delete"/>
+        <property name="preActionKey" value="RidgeBot.Task.Delete.PreAction"/>
+        <property name="permission" value="perm:RidgeBotServiceManager.run"/>
+    </bean>
+    <!-- Stop Task Ui Action -->
+    <bean id="RidgeBot.Stop.Task.UIAction" class="com.mcafee.orion.core.ui.UIActionInfo">
+        <property name="id" value="RideBotTask.stop"/>
+        <property name="registeredType" ref="RidgeBot.Task.RegType"/>
+        <property name="confirmRequired" value="true"/>
+        <property name="input" value="1"/>
+        <property name="output" value="self"/>
+        <property name="actionWebAppUrl">
+            <bean class="com.mcafee.orion.core.servlet.WebAppUrl">
+                <property name="context" value="/S_RIDGBTMETA"/>
+                <property name="url" value="/stopTask.do"/>
+            </bean>
+        </property>
+        <property name="resource" ref="RidgeBotServiceManager.resource"/>
+        <property name="displayNameKey" value="RidgeBot.Task.Stop"/>
+        <property name="preActionKey" value="RidgeBot.Task.Stop.PreAction"/>
+        <property name="permission" value="perm:RidgeBotServiceManager.run"/>
+    </bean>
+    <!-- Start Task Ui Action -->
+    <bean id="RidgeBot.Start.Task.UIAction" class="com.mcafee.orion.core.ui.UIActionInfo">
+        <property name="id" value="RideBotTask.start"/>
+        <property name="registeredType" ref="RidgeBot.Task.RegType"/>
+        <property name="confirmRequired" value="true"/>
+        <property name="input" value="1"/>
+        <property name="output" value="self"/>
+        <property name="actionWebAppUrl">
+            <bean class="com.mcafee.orion.core.servlet.WebAppUrl">
+                <property name="context" value="/S_RIDGBTMETA"/>
+                <property name="url" value="/startTask.do"/>
+            </bean>
+        </property>
+        <property name="resource" ref="RidgeBotServiceManager.resource"/>
+        <property name="displayNameKey" value="RidgeBot.Task.Start"/>
+        <property name="preActionKey" value="RidgeBot.Task.Start.PreAction"/>
+        <property name="permission" value="perm:RidgeBotServiceManager.run"/>
+    </bean>
+    <!-- ReStart Task Ui Action -->
+    <bean id="RidgeBot.ReStart.Task.UIAction" class="com.mcafee.orion.core.ui.UIActionInfo">
+        <property name="id" value="RideBotTask.restart"/>
+        <property name="registeredType" ref="RidgeBot.Task.RegType"/>
+        <property name="confirmRequired" value="true"/>
+        <property name="input" value="1"/>
+        <property name="output" value="self"/>
+        <property name="actionWebAppUrl">
+            <bean class="com.mcafee.orion.core.servlet.WebAppUrl">
+                <property name="context" value="/S_RIDGBTMETA"/>
+                <property name="url" value="/reStartTask.do"/>
+            </bean>
+        </property>
+        <property name="resource" ref="RidgeBotServiceManager.resource"/>
+        <property name="displayNameKey" value="RidgeBot.Task.ReStart"/>
+        <property name="preActionKey" value="RidgeBot.Task.ReStart.PreAction"/>
+        <property name="permission" value="perm:RidgeBotServiceManager.run"/>
+    </bean>
+    <!-- Pause Task Ui Action -->
+    <bean id="RidgeBot.Pause.Task.UIAction" class="com.mcafee.orion.core.ui.UIActionInfo">
+        <property name="id" value="RideBotTask.pause"/>
+        <property name="registeredType" ref="RidgeBot.Task.RegType"/>
+        <property name="confirmRequired" value="true"/>
+        <property name="input" value="1"/>
+        <property name="output" value="self"/>
+        <property name="actionWebAppUrl">
+            <bean class="com.mcafee.orion.core.servlet.WebAppUrl">
+                <property name="context" value="/S_RIDGBTMETA"/>
+                <property name="url" value="/pauseTask.do"/>
+            </bean>
+        </property>
+        <property name="resource" ref="RidgeBotServiceManager.resource"/>
+        <property name="displayNameKey" value="RidgeBot.Task.Pause"/>
+        <property name="preActionKey" value="RidgeBot.Task.Pause.PreAction"/>
+        <property name="permission" value="perm:RidgeBotServiceManager.run"/>
+    </bean>
+    <!-- Purge Task Ui Action -->
+    <bean id="RidgeBot.Purge.Task.UIAction" class="com.mcafee.orion.core.ui.UIActionInfo">
+        <property name="id" value="RideBotTask.purge"/>
+        <property name="registeredType" ref="RidgeBot.Task.RegType"/>
+        <property name="input" value="0"/>
+        <property name="output" value="new"/>
+        <property name="actionWebAppUrl">
+            <bean class="com.mcafee.orion.core.servlet.WebAppUrl">
+                <property name="context" value="/S_RIDGBTMETA"/>
+                <property name="url" value="/purgeTask.do"/>
+            </bean>
+        </property>
+        <property name="resource" ref="RidgeBotServiceManager.resource"/>
+        <property name="displayNameKey" value="RidgeBot.Task.Purge"/>
+        <property name="preActionKey" value="RidgeBot.Task.Purge.PreAction"/>
+        <property name="permission" value="perm:RidgeBotServiceManager.run"/>
+    </bean>
+    <!-- RidgeBot Registered Type -->
+    <bean id="RidgeBot.Task.RegType" class="com.mcafee.orion.core.ui.RegisteredType">
+        <property name="name" value="RidgeBotServiceManager"/>
+        <property name="UID" value="RidgeBotTaskUID"/>
+        <property name="pluginName" value="RidgeBotServiceManager"/>
+        <property name="description" value="RidgeBotServiceManager.Description.text"/>
+        <property name="resource" ref="RidgeBotServiceManager.resource"/>
+        <property name="dataSource" ref="RidgeBotTaskInfoDataSource"/>
+    </bean>
+    <!-- For Detailed Information -->
+    <bean id="RidgeBot.Task.DetailPage"
+          class="com.mcafee.orion.core.ui.detail.SpringDetailSubpageRegistration">
+        <property name="extensions">
+            <list>
+                <bean class="com.mcafee.orion.core.ui.detail.DetailSubpage">
+                    <property name="registeredType" value="RidgeBotTaskUID"/>
+                    <!-- configuration for detailed information -->
+                    <property name="contentUrl">
+                        <bean class="com.mcafee.orion.core.servlet.WebAppUrl">
+                            <property name="context" value="/S_RIDGBTMETA"/>
+                            <property name="url" value="/showTaskDetails.do"/>
+                        </bean>
+                    </property>
+                    <property name="nameKey" value="RidgeBot.Task.detailed.subPage"/>
+                    <property name="resource" ref="RidgeBotServiceManager.resource"/>
+                    <property name="permissionURI" value="perm:RidgeBotServiceManager.run"/>
+                </bean>
+            </list>
+        </property>
+    </bean>
+
+</beans>

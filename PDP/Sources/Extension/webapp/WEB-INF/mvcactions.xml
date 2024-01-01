@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<mvc-action-config version="1.0">
+    <action-set bean="RidgeBotServiceManager.Server.Action">
+        <action checkSecurityToken="false" execute="loadServer" name="loadServer.do"
+                permission="perm:RidgeBotServiceManager.run"/>
+        <action checkSecurityToken="true" execute="saveServer" name="saveServer.do"
+                permission="perm:RidgeBotServiceManager.run"/>
+        <action checkSecurityToken="false" execute="testConnection" name="testConnection.do"
+                permission="ger.runperm:RidgeBotSeviceMana"/>
+    </action-set>
+    <action-set class="com.ridgebot.ext.server.RidgeBotRegisteredServerDataActionHandler">
+        <action checkSecurityToken="false" execute="showPartnerData" name="showPartnerData.do"
+                permission="perm:RidgeBotServiceManager.run"/>
+        <action checkSecurityToken="false" execute="createNewTask" name="createNewTask.do"
+                permission="perm:RidgeBotServiceManager.run"/>
+        <action checkSecurityToken="true" execute="createNewTaskAction" name="createNewTaskAction.do"
+                permission="perm:RidgeBotServiceManager.run"/>
+        <action checkSecurityToken="true" execute="deleteTask" name="deleteTask.do"
+                permission="perm:RidgeBotServiceManager.run"/>
+        <action checkSecurityToken="true" execute="stopTask" name="stopTask.do"
+                permission="perm:RidgeBotServiceManager.run"/>
+        <action checkSecurityToken="true" execute="startTask" name="startTask.do"
+                permission="perm:RidgeBotServiceManager.run"/>
+        <action checkSecurityToken="true" execute="reStartTask" name="reStartTask.do"
+                permission="perm:RidgeBotServiceManager.run"/>
+        <action checkSecurityToken="true" execute="pauseTask" name="pauseTask.do"
+                permission="perm:RidgeBotServiceManager.run"/>
+        <action checkSecurityToken="true" execute="showTaskDetails" name="showTaskDetails.do"
+                permission="perm:RidgeBotServiceManager.run"/>
+        <action checkSecurityToken="false" execute="importFileContent" name="importFileContent.do"
+                permission="perm:RidgeBotServiceManager.run"/>
+        <action checkSecurityToken="false" execute="purgeTask" name="purgeTask.do"
+                permission="perm:RidgeBotServiceManager.run"/>
+        <action checkSecurityToken="false" execute="purgeTaskAction" name="purgeTaskAction.do"
+                permission="perm:RidgeBotServiceManager.run"/>
+    </action-set>
+
+    <action-set class="com.ridgebot.ext.scheduler.RidgeBotServerTaskScheduler">
+        <action checkSecurityToken="false" execute="scheduleServerTaskCommand" name="scheduleServerTaskCommand.do"
+                permission="perm:RidgeBotServiceManager.run"/>
+        <action checkSecurityToken="false" execute="schedulableServerTaskSummary" name="schedulableServerTaskSummary.do"
+                permission="perm:RidgeBotServiceManager.run"/>
+    </action-set>
+</mvc-action-config>

@@ -1,0 +1,2 @@
+// COPYRIGHT:		Copyright (C) 2011 McAfee, Inc.  All rights reserved.
+Provide the results document for test cases provided by McAfee. Also provide a list of any additional test cases,and their results, run by your organization..

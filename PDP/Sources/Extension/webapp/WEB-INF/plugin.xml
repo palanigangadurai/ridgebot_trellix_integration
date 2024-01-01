@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<beans xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://www.springframework.org/schema/beans"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+    <!-- resource -->
+    <bean class="com.mcafee.orion.core.spring.SpringResource" id="RidgeBotServiceManager.resource">
+        <constructor-arg index="0" value="ResourceBundle"/>
+    </bean>
+    <!-- plugin -->
+    <bean class="com.mcafee.orion.core.plugin.DefaultPlugin" id="RidgeBotServiceManager.plugin">
+        <property name="name" value="S_RIDGBT1000"/>
+        <property name="displayKey" value="S_RIDGBTMETA.extension.name"/>
+        <property name="resource" ref="RidgeBotServiceManager.resource"/>
+        <property name="requires">
+            <list>
+                <value>console</value>
+                <value>ComputerMgmt</value>
+                <value>rs</value>
+                <value>EPOCore</value>
+                <value>core</value>
+                <value>scheduler</value>
+            </list>
+        </property>
+    </bean>
+
+</beans>

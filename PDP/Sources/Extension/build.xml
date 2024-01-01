@@ -1,0 +1,250 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<project basedir="" default="dist" name="RidgeBotServiceManager">
+    <property file="build.properties"/>
+    <target depends="init" name="clean">
+        <delete dir="build"/>
+    </target>
+
+    <!-- =====================================================================
+         ==== init: debug/release-specific variable definition ================
+         =================================================================== -->
+    <target name="init-release">
+        <property name="build.home" value="build/release"/>
+        <property name="compile.home" value="build/compile-release"/>
+        <property name="prep.home" value="build/prep-release"/>
+        <property name="compile.debuglevel" value="source,lines,vars"/>
+        <property name="ext.name" value="${extension.name}"/>
+        <property name="dist.home" value="${build.home}/${ext.name}/webapp"/>
+    </target>
+
+
+    <target depends="init-release" name="init">
+        <property name="tomcat.home" value="${root}/server"/>
+        <path id="compile.classpath">
+            <fileset dir="webapp/WEB-INF/lib">
+                <include name="*.jar"/>
+            </fileset>
+            <fileset dir="${tomcat.home}/lib">
+                <include name="*.jar"/>
+            </fileset>
+
+            <fileset dir="${tomcat.home}/extensions/installed/EPOCore">
+                <include name="**/webapp/**/*.jar"/>
+            </fileset>
+            <fileset dir="${tomcat.home}/extensions/installed/PolicyMgmt">
+                <include name="**/webapp/**/*.jar"/>
+            </fileset>
+            <fileset dir="${tomcat.home}/extensions/installed/scheduler">
+                <include name="**/webapp/**/*.jar"/>
+            </fileset>
+            <fileset dir="${tomcat.home}/extensions/installed/ComputerMgmt">
+                <include name="**/webapp/**/*.jar"/>
+            </fileset>
+
+            <fileset dir="${tomcat.home}/extensions/installed/rs">
+                <include name="**/webapp/**/*.jar"/>
+            </fileset>
+
+            <fileset dir="${tomcat.home}/extensions/installed/DataChannel">
+                <include name="**/webapp/**/*.jar"/>
+            </fileset>
+        </path>
+    </target>
+
+
+    <target depends="init" name="init-compile">
+        <mkdir dir="${compile.home}"/>
+    </target>
+
+    <target depends="init-compile" name="compile-nooptions" unless="java.lint.compile">
+        <javac debug="true" debuglevel="${compile.debuglevel}" deprecation="false" destdir="${compile.home}" fork="yes"
+               optimize="true" source="${java.src.version}" srcdir="src">
+            <classpath refid="compile.classpath"/>
+        </javac>
+    </target>
+
+    <target depends="init-compile" if="java.lint.compile" name="compile-lint">
+        <javac debug="true" debuglevel="${compile.debuglevel}" deprecation="false" destdir="${compile.home}" fork="yes"
+               optimize="true" source="${java.src.version}" srcdir="src">
+            <classpath refid="compile.classpath"/>
+            <compilerarg
+                    line="-Xlint -Xlint:unchecked -Xlint:deprecation -Xlint:path -Xlint:serial -Xlint:finally -Xlint:fallthrough"/>
+        </javac>
+    </target>
+
+    <target depends="compile-nooptions,compile-lint" name="compile">
+        <!-- Copy associated resource files -->
+        <copy overwrite="true" todir="${compile.home}">
+            <fileset dir="src" includes="**/*.properties, **/*.xml"/>
+        </copy>
+
+        <copy todir="${dist.home}">
+            <fileset dir="webapp" includes="**"/>
+        </copy>
+    </target>
+
+    <!-- =====================================================================
+         ======================== compile-jsp ================================
+         ===================================================================-->
+    <target depends="compile" name="jsp-tags">
+
+        <mkdir dir="${build.home}"/>
+
+        <property name="meta.dir" value="meta"/>
+        <echo level="debug" message="Jar-Tags build.home: ${build.home}"/>
+        <jar jarfile="${build.home}/${ext.name}-tags.jar">
+            <fileset dir="${compile.home}">
+                <include name="**/*Tag.class"/>
+            </fileset>
+            <fileset dir="${meta.dir}">
+                <include name="**/*"/>
+            </fileset>
+
+        </jar>
+
+
+    </target>
+
+    <target depends="init" name="init-compile-jsp">
+        <mkdir dir="${compile.home}"/>
+        <mkdir dir="${build.home}"/>
+
+        <path id="jasper.compile.classpath">
+            <path refid="compile.classpath"/>
+            <fileset dir="${build.home}">
+                <include name="*.jar"/>
+            </fileset>
+        </path>
+
+        <!-- copy over all the jsp pages we are precompiling. jasper2 appears to
+          need web.xml to be there too. -->
+        <mkdir dir="${prep.home}/jsp"/>
+        <copy todir="${prep.home}/jsp">
+            <fileset dir="jsp" includes="**"/>
+        </copy>
+        <copy todir="${prep.home}/jsp">
+            <fileset dir="webapp" includes="**"/>
+        </copy>
+
+        <!-- create source .java files from the .jsp files so they can be precompiled -->
+        <java classname="org.apache.jasper.JspC" failonerror="true" fork="true">
+            <classpath>
+                <path refid="jasper.compile.classpath"/>
+            </classpath>
+            <!--            <sysproperty key="log4j.configuration"
+            value="file:${root}/log4j-build-configuration.xml"/>
+            -->
+            <arg line="-webapp ${basedir}/${prep.home}/jsp -die -v -d ${basedir}/${prep.home}/src -webinc ${basedir}/${prep.home}/generated_web.xml -cache false"/>
+        </java>
+
+        <!-- copy web.xml. replace the insertion token with the file output from
+                   the jsp precompile above... -->
+
+        <copy todir="${dist.home}">
+            <fileset dir="jsp" excludes="*.jsp"/>
+        </copy>
+
+        <loadfile property="jspInfo" srcfile="${prep.home}/generated_web.xml"/>
+        <replace file="${dist.home}/WEB-INF/web.xml" token="@precompiledJspInfo@" value="${jspInfo}"/>
+
+        <!-- Compile the JSP's .java classes... -->
+        <path id="jasper.classpath">
+            <pathelement location="${compile.home}"/>
+            <path refid="jasper.compile.classpath"/>
+        </path>
+    </target>
+
+    <target depends="init-compile-jsp" name="compile-jsp-nooptions" unless="java.lint.compile">
+        <javac debuglevel="${compile.debuglevel}" deprecation="false" destdir="${compile.home}" fork="yes"
+               optimize="true" srcdir="${prep.home}/src">
+            <classpath refid="jasper.classpath"/>
+        </javac>
+    </target>
+
+    <target depends="init-compile-jsp" if="java.lint.compile" name="compile-jsp-lint">
+        <javac debuglevel="${compile.debuglevel}" deprecation="false" destdir="${compile.home}" fork="yes"
+               optimize="true" srcdir="${prep.home}/src">
+            <classpath refid="jasper.classpath"/>
+            <compilerarg
+                    line="-Xlint -Xlint:unchecked -Xlint:deprecation -Xlint:path -Xlint:serial -Xlint:finally -Xlint:fallthrough"/>
+        </javac>
+    </target>
+
+    <target depends="compile-jsp-nooptions,compile-jsp-lint" name="compile-jsp"/>
+    <target depends="clean,compile" name="dist">
+
+        <copy todir="${dist.home}">
+            <fileset dir="webapp" includes="**"/>
+        </copy>
+
+        <copy todir="${dist.home}/">
+            <fileset dir="jsp"/>
+        </copy>
+
+
+        <mkdir dir="${dist.home}/WEB-INF/lib"/>
+
+        <!-- copy to sample lib directory... -->
+        <jar basedir="${compile.home}" excludes="**/*Test*" includes="**/*.class, **/*.properties, **/*.xml"
+             jarfile="${dist.home}/WEB-INF/lib/${ext.name}.jar">
+        </jar>
+
+        <mkdir dir="${build.home}/${ext.name}/sql"/>
+
+        <copy todir="${build.home}/${ext.name}/sql">
+            <fileset dir="sql"/>
+        </copy>
+        <!--<mkdir dir="${build.home}/${ext.name}/prop"/>-->
+
+        <!--<copy todir="${build.home}/${ext.name}/prop">-->
+        <!--<fileset dir="prop"/>-->
+        <!--</copy>-->
+        <!-- copy over the extension install script, and zip up the extension... -->
+        <copy todir="${build.home}/${ext.name}">
+            <fileset dir="install"/>
+        </copy>
+        <zip basedir="${build.home}/${ext.name}" destfile="${build.home}/${ext.name}.zip"/>
+    </target>
+
+    <!-- =====================================================================
+    ======================== Install ====================================
+    ===================================================================-->
+
+    <!-- builds and installs the extension into the running orion server-->
+    <target depends="uninstall,dist" name="install">
+        <taskdef classname="com.mcafee.orion.remote.client.CommandTask" name="orion-command">
+            <classpath>
+                <fileset dir="${root}/remote-client/lib" includes="*.jar"/>
+            </classpath>
+        </taskdef>
+        <pathconvert property="extension.file" targetos="unix">
+            <path path="${build.home}/${ext.name}.zip"/>
+        </pathconvert>
+        <orion-command command="ext.install" host="${orion.server}:${orion.port}" password="${orion.admin.pwd}"
+                       protocol="${orion.protocol}" user="${orion.admin.name}">
+            <param name="extension" value="file:///${extension.file}"/>
+        </orion-command>
+
+    </target>
+
+    <!-- =====================================================================
+    ======================== Uninstall ====================================
+    ===================================================================-->
+
+    <!-- uninstalls the extension from the running orion server-->
+    <target depends="init-release" name="uninstall">
+        <taskdef classname="com.mcafee.orion.remote.client.CommandTask" name="orion-command">
+            <classpath>
+                <fileset dir="${root}/remote-client/lib" includes="*.jar"/>
+            </classpath>
+        </taskdef>
+
+        <orion-command command="ext.uninstall" host="${orion.server}:${orion.port}" password="${orion.admin.pwd}"
+                       protocol="${orion.protocol}" user="${orion.admin.name}">
+            <param name="extension" value="${extension.name}"/>
+        </orion-command>
+
+    </target>
+
+
+</project>

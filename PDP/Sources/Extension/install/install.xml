@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<project basedir="." default="install" name="RidgeBotServiceManager">
+    <property file="extension.properties"/>
+    <target name="install">
+        <execute-sql file="sql/install.sql"/>
+        <install-webapp context="/S_RIDGBTMETA" dir="webapp"/>
+        <bundle id="stringBundle" location="stringBundle"/>
+        <querygroup id="RidgeBotQueryGroup" bundleRef="stringBundle" shared="true"
+                    uniqueKey="RidgeBot.group">
+            <nameKey>RidgeBot.queryGroup.name</nameKey>
+            <descriptionKey>RidgeBot.queryGroup.desc</descriptionKey>
+        </querygroup>
+        <set-config configRef="RidgeBotQueryGroup"/>
+        <query id="RidgeBotLowestHealthScore" bundleRef="stringBundle" groupRef="RidgeBotQueryGroup">
+            <nameKey>RidgeBotLowestHealthScore</nameKey>
+            <descriptionKey>RidgeBotLowestHealthScore.description</descriptionKey>
+            <property name="uniqueKey">RidgeBotLowestHealthScore.Summary</property>
+            <property name="target">RidgeBotTaskInfo</property>
+            <!-- this should be the name of your registered table -->
+            <property name="tableURI">
+                query:table?orion.table.columns=RidgeBotTaskInfo.TaskId%3ARidgeBotTaskInfo.ServerName%3ARidgeBotTaskInfo.TaskJobTotal%3ARidgeBotTaskInfo.TaskDetectType%3ARidgeBotTaskInfo.TaskJobCounts%3ARidgeBotTaskInfo.TaskSummary%3ARidgeBotTaskInfo.TaskName%3ARidgeBotTaskInfo.TaskStatus%3ARidgeBotTaskInfo.TaskTargets%3ARidgeBotTaskInfo.TaskNodes%3ARidgeBotTaskInfo.TaskStartTime%3ARidgeBotTaskInfo.TaskProgress%3ARidgeBotTaskInfo.TaskCompleteTime%3ARidgeBotTaskInfo.TaskType%3ARidgeBotStatistics.SecuritySafetyIndex%3ARidgeBotStatistics.VulInfo%3ARidgeBotStatistics.VulHigh%3ARidgeBotStatistics.VulLow%3ARidgeBotStatistics.VulMedium%3ARidgeBotStatistics.VulNumber&amp;orion.table.order=az&amp;orion.table.order.by=RidgeBotTaskInfo.TaskId%3ARidgeBotTaskInfo.ServerName%3ARidgeBotTaskInfo.TaskJobTotal%3ARidgeBotTaskInfo.TaskDetectType%3ARidgeBotTaskInfo.TaskJobCounts%3ARidgeBotTaskInfo.TaskSummary%3ARidgeBotTaskInfo.TaskName%3ARidgeBotTaskInfo.TaskStatus%3ARidgeBotTaskInfo.TaskTargets%3ARidgeBotTaskInfo.TaskNodes%3ARidgeBotTaskInfo.TaskStartTime%3ARidgeBotTaskInfo.TaskProgress%3ARidgeBotTaskInfo.TaskCompleteTime%3ARidgeBotTaskInfo.TaskType%3ARidgeBotStatistics.SecuritySafetyIndex%3ARidgeBotStatistics.VulInfo%3ARidgeBotStatistics.VulHigh%3ARidgeBotStatistics.VulLow%3ARidgeBotStatistics.VulMedium%3ARidgeBotStatistics.VulNumber
+            </property>
+            <property name="conditionURI">query:condition?orion.condition.sexp=</property>
+            <property name="summaryURI">query:summary?orion.sum.query=false&amp;orion.query.type=bar.bar&amp;orion.sum.group.by=RidgeBotTaskInfo.TaskName&amp;orion.sum.order=asc&amp;orion.sum.limit.count=10&amp;orion.sum.aggregation=valueOf&amp;orion.sum.aggregation.column=RidgeBotStatistics.SecuritySafetyIndex&amp;orion.sum.aggregation.showTotal=true</property>
+        </query>
+        <set-config configRef="RidgeBotLowestHealthScore"/>
+        <query id="RidgeBotMostAttackSurface" bundleRef="stringBundle" groupRef="RidgeBotQueryGroup">
+            <nameKey>RidgeBotMostAttackSurface</nameKey>
+            <descriptionKey>RidgeBotMostAttackSurface.description</descriptionKey>
+            <property name="uniqueKey">RidgeBotMostAttackSurface.Summary</property>
+            <property name="target">RidgeBotTaskInfo</property>
+            <!-- this should be the name of your registered table -->
+            <property name="tableURI">
+                query:table?orion.table.columns=RidgeBotTaskInfo.TaskId%3ARidgeBotTaskInfo.ServerName%3ARidgeBotTaskInfo.TaskJobTotal%3ARidgeBotTaskInfo.TaskDetectType%3ARidgeBotTaskInfo.TaskJobCounts%3ARidgeBotTaskInfo.TaskSummary%3ARidgeBotTaskInfo.TaskName%3ARidgeBotTaskInfo.TaskStatus%3ARidgeBotTaskInfo.TaskTargets%3ARidgeBotTaskInfo.TaskNodes%3ARidgeBotTaskInfo.TaskStartTime%3ARidgeBotTaskInfo.TaskProgress%3ARidgeBotTaskInfo.TaskCompleteTime%3ARidgeBotTaskInfo.TaskType%3ARidgeBotStatistics.AttackAsstesNum%3ARidgeBotStatistics.AttackIpAsstesNum%3ARidgeBotStatistics.AttackSiteAliveNum%3ARidgeBotStatistics.AttackSiteUnaliveNum%3ARidgeBotStatistics.AttackSurfaceNum%3ARidgeBotStatistics.ChainVulAttackAverage%3ARidgeBotStatistics.SecurityAttackSurfaceDensity&amp;orion.table.order=az&amp;orion.table.order.by=RidgeBotTaskInfo.TaskId%3ARidgeBotTaskInfo.ServerName%3ARidgeBotTaskInfo.TaskJobTotal%3ARidgeBotTaskInfo.TaskDetectType%3ARidgeBotTaskInfo.TaskJobCounts%3ARidgeBotTaskInfo.TaskSummary%3ARidgeBotTaskInfo.TaskName%3ARidgeBotTaskInfo.TaskStatus%3ARidgeBotTaskInfo.TaskTargets%3ARidgeBotTaskInfo.TaskNodes%3ARidgeBotTaskInfo.TaskStartTime%3ARidgeBotTaskInfo.TaskProgress%3ARidgeBotTaskInfo.TaskCompleteTime%3ARidgeBotTaskInfo.TaskType%3ARidgeBotStatistics.AttackAsstesNum%3ARidgeBotStatistics.AttackIpAsstesNum%3ARidgeBotStatistics.AttackSiteAliveNum%3ARidgeBotStatistics.AttackSiteUnaliveNum%3ARidgeBotStatistics.AttackSurfaceNum%3ARidgeBotStatistics.ChainVulAttackAverage%3ARidgeBotStatistics.SecurityAttackSurfaceDensity
+            </property>
+            <property name="conditionURI">query:condition?orion.condition.sexp=</property>
+            <property name="summaryURI">query:summary?orion.sum.query=false&amp;orion.query.type=bar.bar&amp;orion.sum.group.by=RidgeBotTaskInfo.TaskName&amp;orion.sum.order=desc&amp;orion.sum.limit.count=10&amp;orion.sum.aggregation=valueOf&amp;orion.sum.aggregation.column=RidgeBotStatistics.AttackSurfaceNum&amp;orion.sum.aggregation.showTotal=true</property>
+        </query>
+        <set-config configRef="RidgeBotMostAttackSurface"/>
+        <query id="RidgeBotHighestOfRisks" bundleRef="stringBundle" groupRef="RidgeBotQueryGroup">
+            <nameKey>RidgeBotHighestOfRisks</nameKey>
+            <descriptionKey>RidgeBotHighestOfRisks.description</descriptionKey>
+            <property name="uniqueKey">RidgeBotHighestOfRisks.Summary</property>
+            <property name="target">RidgeBotTaskInfo</property>
+            <!-- this should be the name of your registered table -->
+            <property name="tableURI">
+                query:table?orion.table.columns=RidgeBotTaskInfo.TaskId%3ARidgeBotTaskInfo.ServerName%3ARidgeBotTaskInfo.TaskJobTotal%3ARidgeBotTaskInfo.TaskDetectType%3ARidgeBotTaskInfo.TaskJobCounts%3ARidgeBotTaskInfo.TaskSummary%3ARidgeBotTaskInfo.TaskName%3ARidgeBotTaskInfo.TaskStatus%3ARidgeBotTaskInfo.TaskTargets%3ARidgeBotTaskInfo.TaskNodes%3ARidgeBotTaskInfo.TaskStartTime%3ARidgeBotTaskInfo.TaskProgress%3ARidgeBotTaskInfo.TaskCompleteTime%3ARidgeBotTaskInfo.TaskType%3ARidgeBotStatistics.RiskInfiltratedAssetsNum%3ARidgeBotStatistics.RiskDatabaseNum%3ARidgeBotStatistics.RiskCredentialsNum%3ARidgeBotStatistics.RiskCodeNum%3ARidgeBotStatistics.SecurityHttpsRatio%3ARidgeBotStatistics.RiskNumber%3ARidgeBotStatistics.RiskPenetrationNum%3ARidgeBotStatistics.RiskShellNum&amp;orion.table.order=az&amp;orion.table.order.by=RidgeBotTaskInfo.TaskId%3ARidgeBotTaskInfo.ServerName%3ARidgeBotTaskInfo.TaskJobTotal%3ARidgeBotTaskInfo.TaskDetectType%3ARidgeBotTaskInfo.TaskJobCounts%3ARidgeBotTaskInfo.TaskSummary%3ARidgeBotTaskInfo.TaskName%3ARidgeBotTaskInfo.TaskStatus%3ARidgeBotTaskInfo.TaskTargets%3ARidgeBotTaskInfo.TaskNodes%3ARidgeBotTaskInfo.TaskStartTime%3ARidgeBotTaskInfo.TaskProgress%3ARidgeBotTaskInfo.TaskCompleteTime%3ARidgeBotTaskInfo.TaskType%3ARidgeBotStatistics.RiskInfiltratedAssetsNum%3ARidgeBotStatistics.RiskDatabaseNum%3ARidgeBotStatistics.RiskCredentialsNum%3ARidgeBotStatistics.RiskCodeNum%3ARidgeBotStatistics.SecurityHttpsRatio%3ARidgeBotStatistics.RiskNumber%3ARidgeBotStatistics.RiskPenetrationNum%3ARidgeBotStatistics.RiskShellNum
+            </property>
+            <property name="conditionURI">query:condition?orion.condition.sexp=</property>
+            <property name="summaryURI">query:summary?orion.sum.query=false&amp;orion.query.type=bar.bar&amp;orion.sum.group.by=RidgeBotTaskInfo.ServerName&amp;orion.sum.order=desc&amp;orion.sum.limit.count=10&amp;orion.sum.aggregation=valueOf&amp;orion.sum.aggregation.column=RidgeBotStatistics.RiskNumber&amp;orion.sum.aggregation.showTotal=true</property>
+        </query>
+        <set-config configRef="RidgeBotHighestOfRisks"/>
+        <query id="RidgeBotHighestOfVul" bundleRef="stringBundle" groupRef="RidgeBotQueryGroup">
+            <nameKey>RidgeBotHighestOfVul</nameKey>
+            <descriptionKey>RidgeBotHighestOfVul.description</descriptionKey>
+            <property name="uniqueKey">RidgeBotHighestOfVul.Summary</property>
+            <property name="target">RidgeBotTaskInfo</property>
+            <!-- this should be the name of your registered table -->
+            <property name="tableURI">
+                query:table?orion.table.columns=RidgeBotTaskInfo.TaskId%3ARidgeBotTaskInfo.ServerName%3ARidgeBotTaskInfo.TaskJobTotal%3ARidgeBotTaskInfo.TaskDetectType%3ARidgeBotTaskInfo.TaskJobCounts%3ARidgeBotTaskInfo.TaskSummary%3ARidgeBotTaskInfo.TaskName%3ARidgeBotTaskInfo.TaskStatus%3ARidgeBotTaskInfo.TaskTargets%3ARidgeBotTaskInfo.TaskNodes%3ARidgeBotTaskInfo.TaskStartTime%3ARidgeBotTaskInfo.TaskProgress%3ARidgeBotTaskInfo.TaskCompleteTime%3ARidgeBotTaskInfo.TaskType%3ARidgeBotStatistics.VulHigh%3ARidgeBotStatistics.VulInfo%3ARidgeBotStatistics.VulLow%3ARidgeBotStatistics.VulMedium%3ARidgeBotStatistics.VulNumber%3ARidgeBotStatistics.SecurityVulTransform&amp;orion.table.order=az&amp;orion.table.order.by=RidgeBotTaskInfo.TaskId%3ARidgeBotTaskInfo.ServerName%3ARidgeBotTaskInfo.TaskJobTotal%3ARidgeBotTaskInfo.TaskDetectType%3ARidgeBotTaskInfo.TaskJobCounts%3ARidgeBotTaskInfo.TaskSummary%3ARidgeBotTaskInfo.TaskName%3ARidgeBotTaskInfo.TaskStatus%3ARidgeBotTaskInfo.TaskTargets%3ARidgeBotTaskInfo.TaskNodes%3ARidgeBotTaskInfo.TaskStartTime%3ARidgeBotTaskInfo.TaskProgress%3ARidgeBotTaskInfo.TaskCompleteTime%3ARidgeBotTaskInfo.TaskType%3ARidgeBotStatistics.VulHigh%3ARidgeBotStatistics.VulInfo%3ARidgeBotStatistics.VulLow%3ARidgeBotStatistics.VulMedium%3ARidgeBotStatistics.VulNumber%3ARidgeBotStatistics.SecurityVulTransform
+            </property>
+            <property name="conditionURI">query:condition?orion.condition.sexp=</property>
+            <property name="summaryURI">query:summary?orion.sum.query=false&amp;orion.query.type=bar.bar&amp;orion.sum.group.by=RidgeBotTaskInfo.TaskName&amp;orion.sum.order=desc&amp;orion.sum.limit.count=10&amp;orion.sum.aggregation=valueOf&amp;orion.sum.aggregation.column=RidgeBotStatistics.VulNumber&amp;orion.sum.aggregation.showTotal=true</property>
+        </query>
+        <set-config configRef="RidgeBotHighestOfVul"/>
+        <dashboard id="RidgeBotDashboard" layout="2x2" bundleRef="stringBundle">
+            <property name="uniqueKey">RidgeBotDashboard.Summary</property>
+            <nameKey>RidgeBotDashboard</nameKey>
+            <descriptionKey>RidgeBotDashboard.desc</descriptionKey>
+            <element refId="RidgeBotLowestHealthScore"/>
+            <element refId="RidgeBotMostAttackSurface"/>
+            <element refId="RidgeBotHighestOfRisks"/>
+            <element refId="RidgeBotHighestOfVul"/>
+        </dashboard>
+        <set-config configRef="RidgeBotDashboard"/>
+    </target>
+    <target name="uninstall">
+        <bundle id="stringBundle" location="stringBundle"/>
+        <remove-webapp context="/S_RIDGBTMETA"/>
+        <execute-sql file="sql/uninstall.sql"/>
+    </target>
+    <target name="upgrade">
+        <echo message="Upgrade target is called"/>
+    </target>
+    <target name="downgrade">
+        <echo message="Downgrade target is called"/>
+    </target>
+</project>
